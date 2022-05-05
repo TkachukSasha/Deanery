@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Deanery.Domain.Entities
 {
-    public class Deanery
+    public class DeaneryOffice
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

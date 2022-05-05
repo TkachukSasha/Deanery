@@ -21,7 +21,7 @@ namespace Deanery.Domain.Entities
         [BsonElement("CathedraId")]
         public int CathedraId { get; set; }
 
-        public virtual Deanery Deanery { get; set; }
+        public virtual DeaneryOffice Deanery { get; set; }
 
         [BsonElement("DeaneryId")]
         public int DeaneryId { get; set; }
