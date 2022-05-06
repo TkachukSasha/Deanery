@@ -8,7 +8,7 @@ namespace Deanery.Domain.Entities
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
 
         [BsonElement("Name")]
         public string Name { get; set; }

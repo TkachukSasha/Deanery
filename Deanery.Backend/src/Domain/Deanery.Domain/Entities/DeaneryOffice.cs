@@ -7,7 +7,7 @@ namespace Deanery.Domain.Entities
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
 
         [BsonElement("PhoneNumber")]
         public string PhoneNumber { get; set; }

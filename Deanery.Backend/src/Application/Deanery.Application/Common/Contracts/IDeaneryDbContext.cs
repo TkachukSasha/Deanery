@@ -19,5 +19,7 @@ namespace Deanery.Application.Common.Contracts
         IMongoCollection<Student> Student { get; }
         IMongoCollection<StudentInfo> StudentInfo { get; }
         IMongoCollection<RecordBook> RecordBook { get; }
+
+        IMongoCollection<T> GetCollection<T>(string name);
     }
 }

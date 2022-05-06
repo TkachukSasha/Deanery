@@ -7,25 +7,28 @@ namespace Deanery.Dal.Data
 {
     public class DeaneryDbContext : IDeaneryDbContext
     {
+        private IMongoDatabase Database { get; set; }
+        private MongoClient Client { get; set; }
+
         public DeaneryDbContext(IConfiguration configuration)
         {
-            var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
-            var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
+            Client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
+            Database = Client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
 
-            University = database.GetCollection<University>("University");
-            Faculty = database.GetCollection<Faculty>("Faculty");
-            Cathedra = database.GetCollection<Cathedra>("Cathedra");
-            Specialty = database.GetCollection<Specialty>("Specialty");
-            Deanery = database.GetCollection<DeaneryOffice>("Deanery");
-            Subject = database.GetCollection<Subject>("Subject");
-            Teacher = database.GetCollection<Teacher>("Teacher");
-            Schedule = database.GetCollection<Schedule>("Schedule");
-            Group = database.GetCollection<Group>("Group");
-            Audience = database.GetCollection<Audience>("Audience");
-            Course = database.GetCollection<Course>("Course");
-            Student = database.GetCollection<Student>("Student");
-            StudentInfo = database.GetCollection<StudentInfo>("StudentInfo");
-            RecordBook = database.GetCollection<RecordBook>("RecordBook");
+            University = Database.GetCollection<University>("University");
+            Faculty = Database.GetCollection<Faculty>("Faculty");
+            Cathedra = Database.GetCollection<Cathedra>("Cathedra");
+            Specialty = Database.GetCollection<Specialty>("Specialty");
+            Deanery = Database.GetCollection<DeaneryOffice>("Deanery");
+            Subject = Database.GetCollection<Subject>("Subject");
+            Teacher = Database.GetCollection<Teacher>("Teacher");
+            Schedule = Database.GetCollection<Schedule>("Schedule");
+            Group = Database.GetCollection<Group>("Group");
+            Audience = Database.GetCollection<Audience>("Audience");
+            Course = Database.GetCollection<Course>("Course");
+            Student = Database.GetCollection<Student>("Student");
+            StudentInfo = Database.GetCollection<StudentInfo>("StudentInfo");
+            RecordBook = Database.GetCollection<RecordBook>("RecordBook");
         }
 
         public IMongoCollection<University> University { get; }
@@ -42,5 +45,10 @@ namespace Deanery.Dal.Data
         public IMongoCollection<Student> Student { get; }
         public IMongoCollection<StudentInfo> StudentInfo { get; }
         public IMongoCollection<RecordBook> RecordBook { get; }
+
+        public IMongoCollection<T> GetCollection<T>(string name)
+        {
+            return Database.GetCollection<T>(name);
+        }
     }
 }
