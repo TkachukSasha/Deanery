@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.15.1" />
+    <PackageReference Include="ServiceStack.Core" Version="5.14.0" />
   </ItemGroup>
 
   <ItemGroup>
