@@ -43,15 +43,25 @@ namespace Deanery.Application.Common.Services
             await _dbCollection.InsertOneAsync(obj);
         }
 
-        public virtual void Update(TEntity obj)
+        public virtual bool Update(TEntity obj)
         {
+            if(obj == null)
+            {
+                return false;
+            }
             _dbCollection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.GetId()), obj);
+            return true;
         }
 
-        public void Delete(string id)
+        public bool Delete(string id)
         {
             var objectId = new ObjectId(id);
-            _dbCollection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", objectId));
+            var result = _dbCollection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", objectId));
+            if(result == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
