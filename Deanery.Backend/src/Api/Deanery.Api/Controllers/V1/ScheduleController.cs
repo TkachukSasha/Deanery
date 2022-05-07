@@ -3,7 +3,6 @@ using Deanery.Application.Common.Contracts;
 using Deanery.Domain.Entities;
 using Deanery.Domain.Models.Request;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Deanery.Api.Controllers
@@ -21,13 +20,6 @@ namespace Deanery.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("subjects")]
-        public async Task<ActionResult<IEnumerable<Schedule>>> GetAllSubjects()
-        {
-            var result = await _repository.GetAll();
-            return Ok(result);
-        }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<Schedule>> Get(string id)
         {
@@ -35,8 +27,8 @@ namespace Deanery.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("subject")]
-        public ActionResult CreateSubject([FromBody] CreateScheduleRequest request)
+        [HttpPost("schedule")]
+        public ActionResult CreateSchedule([FromBody] CreateScheduleRequest request)
         {
             var map = _mapper.Map<Schedule>(request);
             var result = _repository.Create(map);
@@ -44,7 +36,7 @@ namespace Deanery.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPut("subject")]
+        [HttpPut("schedule")]
         public IActionResult Update([FromBody] CreateScheduleRequest request)
         {
             var map = _mapper.Map<Schedule>(request);
@@ -52,7 +44,7 @@ namespace Deanery.Api.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("subject")]
+        [HttpDelete("schedule")]
         public IActionResult Delete(string id)
         {
             var result = _repository.Delete(id);

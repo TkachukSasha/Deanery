@@ -11,9 +11,8 @@ namespace Deanery.Api.Helpers.DI.Services
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
-            var connetionString = configuration["DatabaseSettings:ConnectionString"];
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseService<>));
-            services.AddHealthChecks().AddMongoDb(connetionString, "MongoDb Health", HealthStatus.Degraded);
+            services.AddHealthChecks().AddMongoDb(configuration["DatabaseSettings:ConnectionString"], "MongoDb Health", HealthStatus.Degraded);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Deanery.Application.Common.Pagination.Filters;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Deanery.Application.Common.Contracts
@@ -9,6 +10,6 @@ namespace Deanery.Application.Common.Contracts
         bool Update(TEntity obj);
         bool Delete(string id);
         Task<TEntity> Get(string id);
-        Task<IEnumerable<TEntity>> GetAll();
+        Task<IEnumerable<TEntity>> GetAll(PaginationFilter pagination);
     }
 }

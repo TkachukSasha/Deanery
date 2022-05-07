@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Deanery.Application.Common.Pagination.Filters;
+using Deanery.Application.Common.Pagination.Queries;
 using Deanery.Domain.Entities;
 using Deanery.Domain.Models.Request;
 
@@ -13,6 +15,7 @@ namespace Deanery.Extensions.Common.Mapper
             CreateMap<CreateScheduleRequest, Schedule>().ReverseMap();
             CreateMap<CreateStudentRequest, Student>().ReverseMap();
             CreateMap<CreateGroupRequest, Group>().ReverseMap();
+            CreateMap<PaginationQuery, PaginationFilter>().ReverseMap();
         }
     }
 }

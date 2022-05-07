@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using Deanery.Application.Common.Contracts;
+using Deanery.Application.Common.Pagination.Filters;
+using Deanery.Application.Common.Pagination.Helpers;
+using Deanery.Application.Common.Pagination.Queries;
+using Deanery.Application.Common.Pagination.Response;
 using Deanery.Domain.Entities;
 using Deanery.Domain.Models.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -14,18 +18,29 @@ namespace Deanery.Api.Controllers
     {
         private readonly IBaseRepository<Student> _repository;
         private readonly IMapper _mapper;
+        private readonly IUriRepository _uriService;
 
-        public StudentController(IBaseRepository<Student> repository, IMapper mapper)
+        public StudentController(IBaseRepository<Student> repository, IMapper mapper, IUriRepository uriRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _uriService = uriRepository;
         }
 
-        [HttpGet("subjects")]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAllSubjects()
+        [HttpGet("students")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetAllStudents([FromQuery] PaginationQuery query)
         {
-            var result = await _repository.GetAll();
-            return Ok(result);
+            var pagginationQuery = _mapper.Map<PaginationFilter>(query);
+            var result = await _repository.GetAll(pagginationQuery);
+
+            if (pagginationQuery == null || pagginationQuery.PageNumber < 1 || pagginationQuery.PageSize < 1)
+            {
+                return Ok(new PagedResponse<Student>(result));
+            }
+
+            var response = PaginationHelper.CreatePaginatedResponse(_uriService, pagginationQuery, result);
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -35,8 +50,8 @@ namespace Deanery.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("subject")]
-        public ActionResult CreateSubject([FromBody] CreateStudentRequest request)
+        [HttpPost("student")]
+        public ActionResult CreateStudent([FromBody] CreateStudentRequest request)
         {
             var map = _mapper.Map<Student>(request);
             var result = _repository.Create(map);
@@ -44,7 +59,7 @@ namespace Deanery.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPut("subject")]
+        [HttpPut("student")]
         public IActionResult Update([FromBody] CreateStudentRequest request)
         {
             var map = _mapper.Map<Student>(request);
@@ -52,7 +67,7 @@ namespace Deanery.Api.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("subject")]
+        [HttpDelete("student")]
         public IActionResult Delete(string id)
         {
             var result = _repository.Delete(id);

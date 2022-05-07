@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using Deanery.Application.Common.Contracts;
+using Deanery.Application.Common.Pagination.Filters;
+using Deanery.Application.Common.Pagination.Helpers;
+using Deanery.Application.Common.Pagination.Queries;
+using Deanery.Application.Common.Pagination.Response;
 using Deanery.Domain.Entities;
 using Deanery.Domain.Models.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -14,18 +18,29 @@ namespace Deanery.Api.Controllers.V1
     {
         private readonly IBaseRepository<Subject> _repository;
         private readonly IMapper _mapper;
+        private readonly IUriRepository _uriService;
 
-        public SubjectController(IBaseRepository<Subject> repository, IMapper mapper)
+        public SubjectController(IBaseRepository<Subject> repository, IMapper mapper, IUriRepository uriRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _uriService = uriRepository;
         }
 
         [HttpGet("subjects")]
-        public async Task<ActionResult<IEnumerable<Subject>>> GetAllSubjects()
+        public async Task<ActionResult<IEnumerable<Subject>>> GetAllSubjects([FromQuery] PaginationQuery query)
         {
-            var result = await _repository.GetAll();
-            return Ok(result);
+            var pagginationQuery = _mapper.Map<PaginationFilter>(query);
+            var result = await _repository.GetAll(pagginationQuery);
+
+            if (pagginationQuery == null || pagginationQuery.PageNumber < 1 || pagginationQuery.PageSize < 1)
+            {
+                return Ok(new PagedResponse<Subject>(result));
+            }
+
+            var response = PaginationHelper.CreatePaginatedResponse(_uriService, pagginationQuery, result);
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]

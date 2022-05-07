@@ -1,4 +1,5 @@
 ﻿using Deanery.Application.Common.Contracts;
+using Deanery.Application.Common.Pagination.Filters;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using ServiceStack;
@@ -28,10 +29,20 @@ namespace Deanery.Application.Common.Services
             return await _dbCollection.FindAsync(filter).Result.FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAll(PaginationFilter pagination)
         {
-            var all = await _dbCollection.FindAsync(Builders<TEntity>.Filter.Empty);
-            return await all.ToListAsync();
+            var skip = (pagination.PageNumber - 1) * pagination.PageSize;
+            var all = await _dbCollection.Find(Builders<TEntity>.Filter.Empty)
+                .Skip(skip)
+                .Limit(pagination.PageSize)
+                .ToListAsync();
+
+            if (pagination == null)
+            {
+                return all;
+            }
+
+            return all;
         }
 
         public async Task Create(TEntity obj)
