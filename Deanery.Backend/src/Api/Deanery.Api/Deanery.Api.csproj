@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\Deanery.Application\Deanery.Application.csproj" />
+    <ProjectReference Include="..\..\Dal\Deanery.Dal\Deanery.Dal.csproj" />
     <ProjectReference Include="..\..\Extensions\Deanery.Extensions\Deanery.Extensions.csproj" />
   </ItemGroup>
 

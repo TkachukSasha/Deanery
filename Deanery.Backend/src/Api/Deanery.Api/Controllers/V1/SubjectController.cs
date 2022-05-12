@@ -16,11 +16,11 @@ namespace Deanery.Api.Controllers.V1
     [Route("api/v1/[controller]")]
     public class SubjectController : Controller
     {
-        private readonly IBaseRepository<Subject> _repository;
+        private readonly ISubjectRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUriRepository _uriService;
 
-        public SubjectController(IBaseRepository<Subject> repository, IMapper mapper, IUriRepository uriRepository)
+        public SubjectController(ISubjectRepository repository, IMapper mapper, IUriRepository uriRepository)
         {
             _repository = repository;
             _mapper = mapper;
@@ -60,7 +60,7 @@ namespace Deanery.Api.Controllers.V1
         }
 
         [HttpPut("subject")]
-        public IActionResult Update([FromBody] CreateSubjectRequest request)
+        public ActionResult Update([FromBody] CreateSubjectRequest request)
         {
             var map = _mapper.Map<Subject>(request);
             var result = _repository.Update(map);

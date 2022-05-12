@@ -1,4 +1,6 @@
 using Deanery.Api.Helpers.DI.Extensions;
+using Deanery.Application.Common.Contracts;
+using Deanery.Application.Common.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +19,7 @@ namespace Deanery.Api
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
+        { 
             services.InstallServicesAssembly(Configuration);
         }
 

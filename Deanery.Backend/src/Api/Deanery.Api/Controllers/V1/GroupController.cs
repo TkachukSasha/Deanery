@@ -16,11 +16,11 @@ namespace Deanery.Api.Controllers
     [Route("api/v1/[controller]")]
     public class GroupController : Controller
     {
-        private readonly IBaseRepository<Group> _repository;
+        private readonly IGroupRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUriRepository _uriService;
 
-        public GroupController(IBaseRepository<Group> repository, IMapper mapper, IUriRepository uriService)
+        public GroupController(IGroupRepository repository, IMapper mapper, IUriRepository uriService)
         {
             _repository = repository;
             _mapper = mapper;

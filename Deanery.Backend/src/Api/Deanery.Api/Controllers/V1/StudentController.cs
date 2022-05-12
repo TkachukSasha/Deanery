@@ -16,11 +16,11 @@ namespace Deanery.Api.Controllers
     [Route("api/v1/[controller]")]
     public class StudentController : Controller
     {
-        private readonly IBaseRepository<Student> _repository;
+        private readonly IStudentRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUriRepository _uriService;
 
-        public StudentController(IBaseRepository<Student> repository, IMapper mapper, IUriRepository uriRepository)
+        public StudentController(IStudentRepository repository, IMapper mapper, IUriRepository uriRepository)
         {
             _repository = repository;
             _mapper = mapper;

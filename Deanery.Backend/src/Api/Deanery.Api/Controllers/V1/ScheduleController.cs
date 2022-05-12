@@ -11,10 +11,10 @@ namespace Deanery.Api.Controllers
     [Route("api/v1/[controller]")]
     public class ScheduleController : Controller
     {
-        private readonly IBaseRepository<Schedule> _repository;
+        private readonly IScheduleRepository _repository;
         private readonly IMapper _mapper;
 
-        public ScheduleController(IBaseRepository<Schedule> repository, IMapper mapper)
+        public ScheduleController(IScheduleRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
